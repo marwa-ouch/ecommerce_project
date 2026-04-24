@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Liste de produits{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Liste de produits</h1>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'product_detail' product.id %}">
+                                {{ product.name }}
+                            </a>
+                        </h5>
+
+                        <p class="card-text">
+                            Prix : {{ product.price }} €
+                        </p>
+
+                        <p class="card-text">
+                            Catégorie :
+                            <a href="{% url 'category_detail' product.category.id %}">
+                                {{ product.category.name }}
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="card-footer text-center">
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">
+                            Voir le produit
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        {% empty %}
+            <p>Aucun produit disponible.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
