@@ -207,3 +207,108 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
 ---
 
+## Configuration de l'Authentification
+
+### Applications installées
+
+Dans `settings.py`, l'application `accounts` est ajoutée à `INSTALLED_APPS` :
+
+```python
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'products',
+    'accounts',
+]
+```
+
+### Redirections d'authentification
+
+À la fin de `settings.py` :
+
+```python
+LOGIN_REDIRECT_URL = "profile"
+LOGOUT_REDIRECT_URL = "product_list"
+LOGIN_URL = "login"
+```
+
+| Variable | Rôle |
+|---|---|
+| `LOGIN_REDIRECT_URL` | Page vers laquelle l'utilisateur est redirigé après connexion |
+| `LOGOUT_REDIRECT_URL` | Page vers laquelle l'utilisateur est redirigé après déconnexion |
+| `LOGIN_URL` | Page de connexion utilisée pour les redirections de pages protégées |
+
+### Formulaire d'inscription (`accounts/forms.py`)
+
+```python
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True, label="Adresse email")
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1", "password2"]
+```
+
+### Protection des vues avec `@login_required`
+
+```python
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def profile(request):
+    return render(request, "registration/profile.html")
+```
+
+Si un utilisateur non connecté tente d'accéder à une page protégée, Django le redirige automatiquement vers `LOGIN_URL`.
+
+---
+
+## Nouvelles URLs — Application `accounts`
+
+| URL | Vue associée | Description |
+|---|---|---|
+| `/accounts/signup/` | `signup` | Page d'inscription |
+| `/accounts/login/` | `login` | Page de connexion |
+| `/accounts/logout/` | `logout` | Déconnexion |
+| `/accounts/profile/` | `profile` | Page profil (connexion requise) |
+| `/accounts/password_change/` | Django Auth | Changement de mot de passe |
+| `/accounts/password_reset/` | Django Auth | Réinitialisation de mot de passe |
+
+---
+
+## Modèle `User` (Django intégré)
+
+| Champ | Description |
+|---|---|
+| `username` | Nom d'utilisateur unique |
+| `email` | Adresse email |
+| `password` | Mot de passe haché (jamais stocké en clair) |
+| `is_staff` | Accès à l'interface d'administration |
+| `is_superuser` | Tous les droits |
+---
+
+## Captures d'écran
+
+### Liste des produits
+![Liste des produits]('/Users/marwa/Desktop/Django/Ateliers/atelier 1/ecommerce_project/screenshots/Screenshot 2026-04-29 at 11.46.05.png')
+
+### Page d'inscription
+![Inscription]('/Users/marwa/Desktop/Django/Ateliers/atelier 1/ecommerce_project/screenshots/Screenshot 2026-04-29 at 11.45.53.png')
+
+### Page de connexion
+![Connexion]('/Users/marwa/Desktop/Django/Ateliers/atelier 1/ecommerce_project/screenshots/Screenshot 2026-04-29 at 11.46.20.png')
+
+### Page profil
+![Profil]('/Users/marwa/Desktop/Django/Ateliers/atelier 1/ecommerce_project/screenshots/Screenshot 2026-04-29 at 11.49.31.png')
+
+
+### Architecture du projet
+![Architecture]('/Users/marwa/Desktop/Django/Ateliers/atelier 1/ecommerce_project/screenshots/Screenshot 2026-04-29 at 11.50.48.png')
