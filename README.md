@@ -301,7 +301,7 @@ Si un utilisateur non connecté tente d'accéder à une page protégée, Django 
 ![Liste des produits]('/Users/marwa/Desktop/Django/Ateliers/atelier 1/ecommerce_project/screenshots/Screenshot 2026-04-29 at 11.46.05.png')
 
 ### Page d'inscription
-![Inscription]('/Users/marwa/Desktop/Django/Ateliers/atelier 1/ecommerce_project/screenshots/Screenshot 2026-04-29 at 11.45.53.png')
+![Inscription]('screenshots/Screenshot 2026-04-29 at 11.45.53.png')
 
 ### Page de connexion
 ![Connexion]('/Users/marwa/Desktop/Django/Ateliers/atelier 1/ecommerce_project/screenshots/Screenshot 2026-04-29 at 11.46.20.png')

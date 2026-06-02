@@ -14,5 +14,10 @@ def category_list(request):
     return render(request, 'category_list.html', {'categories': categories})
 
 def category_detail(request, id):
-    category=get_object_or_404(Category, id=id)
-    return render(request, 'category_detail.html', {'category': category})
+    category = get_object_or_404(Category, id=id)
+    products = category.products.all()  # ✅ BON
+
+    return render(request, 'category_detail.html', {
+        'category': category,
+        'products': products
+    })

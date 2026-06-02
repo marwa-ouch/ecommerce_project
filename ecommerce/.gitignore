@@ -7,19 +7,17 @@ django_env/
 venv/
 env/
 
-# VS Code
-.vscode/
-
 # macOS
 .DS_Store
+
+# VS Code
+.vscode/
 
 # Django
 db.sqlite3
 media/
 MEDIA/
 staticfiles/
-
-# Environment variables
 .env
 
 # Logs

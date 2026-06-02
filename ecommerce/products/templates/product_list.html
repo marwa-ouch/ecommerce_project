@@ -4,49 +4,114 @@
 
 {% block content %}
 
-<div class="container mt-4">
-    <h1 class="mb-4">Liste de produits</h1>
+<div class="container py-4">
 
-    <div class="row">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0"> Liste de produits</h2>
+    </div>
+
+    <div class="row g-4">
+
         {% for product in products %}
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
+            <div class="col-sm-6 col-md-4 col-lg-3">
 
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                    {% endif %}
+                <div class="card h-100 border-0 shadow-sm product-card">
 
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a href="{% url 'product_detail' product.id %}">
+                    <!-- IMAGE -->
+                    <div class="overflow-hidden">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}"
+                                 class="card-img-top product-img"
+                                 alt="{{ product.name }}">
+                        {% else %}
+                            <div class="bg-light d-flex align-items-center justify-content-center product-img">
+                                <span class="text-muted">No image</span>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- BODY -->
+                    <div class="card-body d-flex flex-column">
+
+                        <h6 class="card-title fw-bold">
+                            <a href="{% url 'product_detail' product.id %}"
+                               class="text-decoration-none text-dark">
                                 {{ product.name }}
                             </a>
-                        </h5>
+                        </h6>
 
-                        <p class="card-text">
-                            Prix : {{ product.price }} €
-                        </p>
-
-                        <p class="card-text">
+                        <p class="text-muted small mb-2">
                             Catégorie :
-                            <a href="{% url 'category_detail' product.category.id %}">
+                            <a href="{% url 'category_detail' product.category.id %}"
+                               class="text-decoration-none">
                                 {{ product.category.name }}
                             </a>
                         </p>
+
+                        <!-- PRICE -->
+                        <div class="mt-auto">
+                            <span class="badge bg-success fs-6 mb-3">
+                                {{ product.price }} MAD
+                            </span>
+                        </div>
+
                     </div>
 
-                    <div class="card-footer text-center">
-                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">
-                            Voir le produit
+                    <!-- FOOTER -->
+                    <div class="card-footer bg-white border-0 d-grid gap-2">
+
+                        <a href="{% url 'product_detail' product.id %}"
+                           class="btn btn-outline-primary btn-sm">
+                            Voir détails
                         </a>
+
+                        <a href="{% url 'add_to_cart' product.id %}"
+                           class="btn btn-success btn-sm">
+                            Ajouter au panier
+                        </a>
+
                     </div>
 
                 </div>
+
             </div>
+
         {% empty %}
-            <p>Aucun produit disponible.</p>
+
+            <div class="text-center py-5">
+                <h5 class="text-muted">Aucun produit disponible 😕</h5>
+                <a href="{% url 'category_list' %}" class="btn btn-outline-secondary mt-3">
+                    Voir les catégories
+                </a>
+            </div>
+
         {% endfor %}
+
     </div>
 </div>
+
+<!-- STYLE -->
+<style>
+.product-img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.05);
+}
+
+.product-card {
+    transition: all 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+</style>
 
 {% endblock %}
